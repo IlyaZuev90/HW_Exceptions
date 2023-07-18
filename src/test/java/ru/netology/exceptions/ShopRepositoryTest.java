@@ -1,4 +1,4 @@
-package ru.netology.inherit;
+package ru.netology.exceptions;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -51,4 +51,51 @@ public class ShopRepositoryTest {
                 () -> repo.removeById(7)
         );
     }
+
+    @Test
+    public void shouldAddNewProduct() {
+        ShopRepository repo = new ShopRepository();
+        Product product1 = new Product(1, "Картошка", 50);
+        Product product2 = new Product(2, "Помидоры", 80);
+        Product product3 = new Product(3, "Лук", 70);
+        Product product4 = new Product(4, "Молоко", 100);
+        Product product5 = new Product(5, "Книга", 500);
+        Product product6 = new Product(6, "Обувь", 5_000);
+
+        repo.add(product1);
+        repo.add(product2);
+        repo.add(product3);
+        repo.add(product4);
+        repo.add(product5);
+        repo.add(product6);
+
+        Product[] expected = {product1, product2, product3, product4, product5, product6};
+        Product[] actual = repo.findAll();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldTestWhenAddProductWithExistedId() {
+        ShopRepository repo = new ShopRepository();
+        Product product1 = new Product(1, "Картошка", 50);
+        Product product2 = new Product(2, "Помидоры", 80);
+        Product product3 = new Product(3, "Лук", 70);
+        Product product4 = new Product(4, "Молоко", 100);
+        Product product5 = new Product(5, "Книга", 500);
+        Product product6 = new Product(6, "Обувь", 5_000);
+        Product product7 = new Product(1, "Джинсы", 2_000);
+
+        repo.add(product1);
+        repo.add(product2);
+        repo.add(product3);
+        repo.add(product4);
+        repo.add(product5);
+        repo.add(product6);
+
+        Assertions.assertThrows(AlreadyExistsException.class,
+                () -> repo.add(product7)
+        );
+    }
+
 }

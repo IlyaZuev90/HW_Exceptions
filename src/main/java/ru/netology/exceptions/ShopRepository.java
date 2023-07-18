@@ -1,10 +1,11 @@
-package ru.netology.inherit;
+package ru.netology.exceptions;
 
 public class ShopRepository {
     private Product[] products = new Product[0];
 
     /**
      * Вспомогательный метод для имитации добавления элемента в массив
+     *
      * @param current — массив, в который мы хотим добавить элемент
      * @param product — элемент, который мы хотим добавить
      * @return — возвращает новый массив, который выглядит, как тот, что мы передали,
@@ -12,18 +13,21 @@ public class ShopRepository {
      */
     private Product[] addToArray(Product[] current, Product product) {
         Product[] tmp = new Product[current.length + 1];
-        for (int i = 0; i < current.length; i++) {
-            tmp[i] = current[i];
-        }
+        System.arraycopy(current, 0, tmp, 0, current.length);
         tmp[tmp.length - 1] = product;
         return tmp;
     }
 
     /**
      * Метод добавления товара в репозиторий
+     *
      * @param product — добавляемый товар
      */
     public void add(Product product) {
+        Product productQuery = findById(product.id);
+        if (productQuery != null) {
+            throw new AlreadyExistsException(product.id);
+        }
         products = addToArray(products, product);
     }
 

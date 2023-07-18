@@ -1,6 +1,7 @@
-package ru.netology.inherit;
+package ru.netology.exceptions;
 
 import java.util.Objects;
+
 public class Product {
     protected int id;
     protected String title;
